@@ -1,0 +1,213 @@
+/* esercizi.js — la libreria di base e le schede di partenza.
+   Libreria: [id, nome, attrezzo, muscoli, disegno (facoltativo), "tempo" se si misura in secondi, "lato" se è per lato].
+   Gli esercizi che crei o cambi tu stanno su Supabase (chiave esercizio:<id>) e hanno la precedenza su questi. */
+
+const L = [
+  // corpo libero
+  ['squat-cl', 'Squat a corpo libero', 'cl', 'gambe, glutei', 'squat'],
+  ['affondo-indietro', 'Affondi indietro', 'cl', 'gambe, glutei', 'split', '', 'lato'],
+  ['split-squat-cl', 'Split squat a corpo libero', 'cl', 'gambe, glutei', 'split', '', 'lato'],
+  ['step-down', 'Step-down laterale', 'cl', 'quadricipiti, gluteo medio', 'stepdown', '', 'lato'],
+  ['step-up-cl', 'Step-up sul gradino', 'cl', 'gambe, glutei', '', '', 'lato'],
+  ['flessioni', 'Flessioni', 'cl', 'petto, tricipiti, core', 'flessioni'],
+  ['flessioni-rialzate', 'Flessioni con mani rialzate', 'cl', 'petto, tricipiti', 'flessioni'],
+  ['flessioni-strette', 'Flessioni a presa stretta', 'cl', 'tricipiti, petto', 'flessioni'],
+  ['pike-pushup', 'Pike push-up', 'cl', 'spalle, tricipiti'],
+  ['trazioni-prone', 'Trazioni presa prona', 'cl', 'dorsali, bicipiti', 'trazioni'],
+  ['trazioni-supine', 'Trazioni presa supina', 'cl', 'dorsali, bicipiti', 'trazioni'],
+  ['trazioni-negative', 'Trazioni negative (solo discesa)', 'cl', 'dorsali, bicipiti', 'trazioni'],
+  ['scapular-pullup', 'Scapular pull-up (spalle attive alla sbarra)', 'cl', 'scapole, dorsali', 'trazioni'],
+  ['appeso-attivo', 'Appeso attivo alla sbarra', 'cl', 'presa, scapole', 'trazioni', 'tempo'],
+  ['rematore-australiano', 'Rematore australiano', 'cl', 'dorsali, romboidi'],
+  ['dip', 'Dip alle parallele', 'cl', 'petto, tricipiti'],
+  ['plank', 'Plank', 'cl', 'addome, core', 'plank', 'tempo'],
+  ['side-plank', 'Side plank', 'cl', 'addome, fianchi', 'sideplank', 'tempo', 'lato'],
+  ['copenhagen-corto', 'Copenhagen plank corto', 'cl', 'adduttori, fianchi', 'copenhagen', 'tempo', 'lato'],
+  ['dead-bug', 'Dead bug', 'cl', 'addome profondo', 'deadbug', '', 'lato'],
+  ['bird-dog', 'Bird-dog', 'cl', 'schiena, addome', 'birddog', '', 'lato'],
+  ['curl-up-mcgill', 'Curl-up McGill', 'cl', 'addome', 'curlup', 'tempo'],
+  ['bear-hold', 'Bear hold', 'cl', 'core, spalle', 'bear', 'tempo'],
+  ['hollow-hold', 'Hollow hold', 'cl', 'addome', '', 'tempo'],
+  ['glute-bridge', 'Glute bridge', 'cl', 'glutei', 'ponte'],
+  ['glute-bridge-1', 'Glute bridge su una gamba', 'cl', 'glutei', 'ponte', '', 'lato'],
+  ['hip-thrust-panca', 'Hip thrust con spalle sulla panca', 'cl', 'glutei', 'ponte'],
+  ['y-t-terra', 'Y e T a terra', 'cl', 'trapezio basso, cuffia', 'yt'],
+  ['superman', 'Superman', 'cl', 'schiena', 'yt'],
+  ['calf-raise', 'Calf raise', 'cl', 'polpacci'],
+  ['wall-sit', 'Wall sit (sedia al muro)', 'cl', 'quadricipiti', 'squat', 'tempo'],
+  ['burpee', 'Burpee', 'cl', 'tutto il corpo, fiato'],
+  ['mountain-climber', 'Mountain climber', 'cl', 'core, fiato', 'plank'],
+  ['jumping-jack', 'Jumping jack', 'cl', 'fiato'],
+  ['salto-box', 'Salto sul box', 'cl', 'gambe, potenza'],
+  ['squat-jump', 'Squat jump', 'cl', 'gambe, potenza', 'squat'],
+  // kettlebell
+  ['goblet-squat', 'Goblet squat', 'kb', 'gambe, glutei', 'squat'],
+  ['goblet-squat-sedia', 'Goblet squat fino alla sedia', 'kb', 'gambe, glutei', 'squat'],
+  ['goblet-tenuto', 'Goblet squat tenuto in basso', 'kb', 'anche, mobilità', 'squat', 'tempo'],
+  ['stacco-kb', 'Stacco da terra con kettlebell', 'kb', 'catena posteriore', 'stacco'],
+  ['rdl-1-kb', 'Stacco rumeno su una gamba', 'kb', 'femorali, equilibrio', 'stacco', '', 'lato'],
+  ['rematore-kb', 'Rematore a un braccio', 'kb', 'dorsali', 'rematore', '', 'lato'],
+  ['split-squat-kb', 'Split squat con kettlebell', 'kb', 'gambe, glutei', 'split', '', 'lato'],
+  ['suitcase-carry', 'Suitcase carry', 'kb', 'core, presa', 'carry', '', 'lato'],
+  ['farmer-carry', 'Farmer carry', 'kb', 'presa, trapezi', 'carry'],
+  ['bottoms-up', 'Bottoms-up hold in rack', 'kb', 'spalla, cuffia', 'bottomsup', 'tempo', 'lato'],
+  ['around-world', 'Around the world', 'kb', 'core, riscaldamento', 'aroundworld'],
+  ['halo', 'Halo', 'kb', 'spalle, mobilità'],
+  ['swing-2', 'Swing a due mani', 'kb', 'glutei, potenza'],
+  ['swing-1', 'Swing a una mano', 'kb', 'glutei, potenza', '', '', 'lato'],
+  ['clean-kb', 'Clean', 'kb', 'potenza', '', '', 'lato'],
+  ['press-kb', 'Press in piedi', 'kb', 'spalle', '', '', 'lato'],
+  ['snatch-kb', 'Snatch', 'kb', 'potenza, spalle', '', '', 'lato'],
+  ['tgu', 'Turkish get-up', 'kb', 'tutto il corpo, spalla', '', '', 'lato'],
+  ['dead-bug-kb', 'Dead bug con kettlebell', 'kb', 'addome profondo', 'deadbug', '', 'lato'],
+  ['hip-thrust-kb', 'Hip thrust con kettlebell', 'kb', 'glutei', 'ponte'],
+  // manubri
+  ['panca-manubri', 'Panca piana con manubri', 'man', 'petto, tricipiti'],
+  ['panca-inclinata-man', 'Panca inclinata con manubri', 'man', 'petto alto, spalle'],
+  ['rematore-man', 'Rematore con manubrio', 'man', 'dorsali', 'rematore', '', 'lato'],
+  ['alzate-laterali', 'Alzate laterali', 'man', 'spalle'],
+  ['alzate-posteriori', 'Alzate posteriori a busto flesso', 'man', 'deltoide posteriore'],
+  ['curl-man', 'Curl con manubri', 'man', 'bicipiti'],
+  ['curl-martello', 'Curl a martello', 'man', 'bicipiti, avambracci'],
+  ['french-press-man', 'French press con manubrio', 'man', 'tricipiti'],
+  ['affondi-camminati', 'Affondi camminati', 'man', 'gambe, glutei', 'split'],
+  ['bulgarian', 'Bulgarian split squat', 'man', 'gambe, glutei', 'split', '', 'lato'],
+  ['step-up-man', 'Step-up con manubri', 'man', 'gambe, glutei', '', '', 'lato'],
+  ['rdl-man', 'Stacco rumeno con manubri', 'man', 'femorali, glutei', 'stacco'],
+  ['shoulder-press-man', 'Shoulder press seduto', 'man', 'spalle'],
+  ['pullover-man', 'Pullover', 'man', 'dorsali, petto'],
+  // bilanciere
+  ['panca-piana', 'Panca piana', 'bil', 'petto, tricipiti'],
+  ['squat-bil', 'Squat con bilanciere', 'bil', 'gambe, glutei', 'squat'],
+  ['front-squat', 'Front squat', 'bil', 'quadricipiti, core', 'squat'],
+  ['stacco-bil', 'Stacco da terra', 'bil', 'catena posteriore', 'stacco'],
+  ['rdl-bil', 'Stacco rumeno', 'bil', 'femorali, glutei', 'stacco'],
+  ['rematore-bil', 'Rematore con bilanciere', 'bil', 'dorsali'],
+  ['hip-thrust-bil', 'Hip thrust', 'bil', 'glutei', 'ponte'],
+  ['military-press', 'Military press', 'bil', 'spalle'],
+  ['curl-bil', 'Curl con bilanciere', 'bil', 'bicipiti'],
+  // macchinari
+  ['leg-press', 'Leg press', 'mac', 'gambe'],
+  ['leg-curl', 'Leg curl', 'mac', 'femorali'],
+  ['leg-extension', 'Leg extension', 'mac', 'quadricipiti'],
+  ['lat-machine', 'Lat machine', 'mac', 'dorsali'],
+  ['lat-machine-stretta', 'Lat machine presa stretta', 'mac', 'dorsali, bicipiti'],
+  ['pulley', 'Pulley basso', 'mac', 'dorsali, romboidi'],
+  ['chest-press', 'Chest press', 'mac', 'petto'],
+  ['pec-deck', 'Pectoral machine', 'mac', 'petto'],
+  ['shoulder-press-mac', 'Shoulder press alla macchina', 'mac', 'spalle'],
+  ['abductor', 'Abductor machine', 'mac', 'gluteo medio'],
+  ['adductor', 'Adductor machine', 'mac', 'adduttori'],
+  ['calf-mac', 'Calf machine', 'mac', 'polpacci'],
+  ['hack-squat', 'Hack squat', 'mac', 'quadricipiti, glutei'],
+  ['assisted-pullup', 'Trazioni assistite alla macchina', 'mac', 'dorsali'],
+  ['back-extension', 'Hyperextension (panca a 45°)', 'mac', 'schiena, glutei'],
+  ['cyclette', 'Cyclette', 'mac', 'fiato, gambe', '', 'tempo'],
+  ['tapis-roulant', 'Tapis roulant (camminata in salita)', 'mac', 'fiato', '', 'tempo'],
+  ['vogatore', 'Vogatore', 'mac', 'fiato, dorsali', '', 'tempo'],
+  ['ellittica', 'Ellittica', 'mac', 'fiato', '', 'tempo'],
+  // cavi
+  ['face-pull', 'Face pull', 'cavo', 'cuffia dei rotatori, scapole'],
+  ['extrarotazione-cavo', 'Extrarotazione al cavo', 'cavo', 'cuffia dei rotatori', '', '', 'lato'],
+  ['intrarotazione-cavo', 'Intrarotazione al cavo', 'cavo', 'cuffia dei rotatori', '', '', 'lato'],
+  ['pallof', 'Pallof press', 'cavo', 'core anti-rotazione', '', '', 'lato'],
+  ['tricipiti-corda', 'Tricipiti alla corda', 'cavo', 'tricipiti'],
+  ['croci-cavi', 'Croci ai cavi', 'cavo', 'petto'],
+  ['woodchop', 'Woodchop al cavo', 'cavo', 'core, obliqui', '', '', 'lato'],
+  ['pull-through', 'Pull-through al cavo', 'cavo', 'glutei, femorali', 'stacco'],
+  // elastici
+  ['extrarotazione-band', 'Extrarotazione con mini-band', 'ela', 'cuffia dei rotatori', 'elastico'],
+  ['wall-slide-band', 'Wall slide con mini-band', 'ela', 'scapole, dentato', 'wallslide'],
+  ['camminata-laterale', 'Camminata laterale con mini-band', 'ela', 'gluteo medio', 'lateralwalk', '', 'lato'],
+  ['band-pull-apart', 'Band pull-apart', 'ela', 'deltoide posteriore, romboidi', 'elastico'],
+  ['clamshell', 'Clamshell con mini-band', 'ela', 'gluteo medio', '', '', 'lato'],
+  ['monster-walk', 'Monster walk', 'ela', 'glutei', 'lateralwalk'],
+  ['dislocazioni-band', 'Dislocazioni con elastico', 'ela', 'spalle, mobilità'],
+  ['rematore-band', 'Rematore con elastico', 'ela', 'dorsali'],
+  // mobilità
+  ['gatto-cammello', 'Gatto-cammello', 'mob', 'colonna', 'gatto'],
+  ['open-book', 'Open book', 'mob', 'colonna toracica', 'openbook', '', 'lato'],
+  ['respiri-muro', 'Respiri coi piedi al muro', 'mob', 'diaframma, schiena', 'respiri'],
+  ['novanta-novanta', '90/90 delle anche', 'mob', 'anche', 'novanta', '', 'lato'],
+  ['affondo-flessore', 'Affondo a terra per il flessore dell\'anca', 'mob', 'flessori dell\'anca', 'split', 'tempo', 'lato'],
+  ['asciugamano-colonna', 'Asciugamano lungo la colonna', 'mob', 'colonna toracica', 'asciugamano', 'tempo'],
+  ['child-pose', 'Posizione del bambino', 'mob', 'schiena'],
+  ['thread-needle', 'Thread the needle', 'mob', 'colonna toracica', 'openbook', '', 'lato'],
+  ['caviglie-muro', 'Mobilità caviglia al muro', 'mob', 'caviglie', '', '', 'lato'],
+  ['camminata-10', 'Camminata', 'mob', 'fiato, digestione', '', 'tempo'],
+  // piscina
+  ['nuoto-libero', 'Stile libero', 'pis', 'tutto il corpo, fiato', '', 'tempo'],
+  ['pinne-dorso', 'Battuta di gambe a dorso con le pinne', 'pis', 'gambe, fiato', '', 'tempo'],
+  ['pinne-libero', 'Stile libero con le pinne', 'pis', 'tutto il corpo, fiato', '', 'tempo'],
+  ['rana-verticale', 'Gambe a rana in verticale', 'pis', 'gambe', '', 'tempo'],
+  ['eggbeater', 'Eggbeater (bicicletta in verticale)', 'pis', 'gambe, adduttori', '', 'tempo'],
+  ['galleggiamento', 'Galleggiamento in verticale a mani alte', 'pis', 'gambe, core', '', 'tempo'],
+  ['trasporto-manichino', 'Trasporto del manichino', 'pis', 'tutto il corpo', '', 'tempo'],
+];
+export const LIBRERIA = L.map(([id, nome, att, muscoli, posa = '', tempo = '', lato = '']) =>
+  ({ id, nome, att, muscoli, posa, tipo: tempo ? 'tempo' : 'rip', lato: !!lato }));
+export const CATEGORIE = ['cl', 'kb', 'man', 'bil', 'mac', 'cavo', 'ela', 'mob', 'pis'];
+
+// ---------- schede di partenza ----------
+// voce: id libreria, blocco, serie, ripetizioni (o secondi), kg, recupero, extra.
+// coppia = codice dell'esercizio con cui si alterna (superserie A1 ↔ A2).
+const LIB = Object.fromEntries(LIBRERIA.map(e => [e.id, e]));
+let n = 0;
+function voce(lib, blocco, serie, quanti, kg = null, rec = 60, extra = {}) {
+  const b = LIB[lib];
+  const e = { id: 'v' + (++n), lib, nome: b.nome, att: b.att, posa: b.posa, blocco, tipo: b.tipo, lato: b.lato, serie, kg, rec, come: [], ...extra };
+  if (e.tipo === 'tempo') e.sec = quanti; else e.rip = quanti;
+  return e;
+}
+const SPALLA = 'Spalla · 3 giri', FORZA = 'Forza', CHIUSURA = 'Chiusura';
+export function schedeBase() {
+  n = 0;
+  return [
+    { id: 'risc', nome: 'Riscaldamento', tipo: 'riscaldamento', ordine: 0, minuti: 10, esercizi: [
+      voce('gatto-cammello', 'Riscaldamento', 1, 8, null, 0),
+      voce('open-book', 'Riscaldamento', 1, 6, null, 0),
+      voce('respiri-muro', 'Riscaldamento', 1, 5, null, 0, { unita: 'respiri' }),
+      voce('glute-bridge', 'Riscaldamento', 1, 10, null, 0),
+      voce('around-world', 'Riscaldamento', 1, 5, 8, 0, { ripTesto: '5 giri per verso' }),
+      voce('goblet-squat', 'Riscaldamento', 1, 5, 8, 0),
+    ] },
+    { id: 'A', nome: 'Allenamento A', lettera: 'A', tipo: 'allenamento', ordine: 1, minuti: 55, esercizi: [
+      voce('extrarotazione-band', SPALLA, 3, 12, null, 30, { come: ['Gomiti incollati ai fianchi', 'Ruota solo gli avambracci verso l\'esterno', 'Torna in 2 secondi'] }),
+      voce('bottoms-up', SPALLA, 3, 20, 8, 30, { come: ['Kettlebell a testa in giù, polso dritto', 'Stringi forte la maniglia', 'Spalla bassa e lontana dall\'orecchio'] }),
+      voce('y-t-terra', SPALLA, 3, 6, null, 30, { ripTesto: '6 + 6', come: ['A pancia in giù, fronte su un asciugamano', 'Pollici verso il soffitto', 'Solleva poco: conta il controllo'] }),
+      voce('goblet-squat-sedia', FORZA, 4, 8, 12, 75, { codice: 'A1', coppia: 'A2', come: ['Scendi finché sfiori la sedia, senza sederti', 'Petto alto, ginocchia in linea con i piedi', 'Chiudi con 2-3 ripetizioni ancora in riserva'] }),
+      voce('rematore-kb', FORZA, 4, 10, 16, 75, { codice: 'A2', coppia: 'A1', come: ['Mano libera sulla panca, schiena piatta', 'Tira il gomito verso la tasca', 'Spalla lontana dall\'orecchio'] }),
+      voce('split-squat-kb', FORZA, 3, 8, 12, 60, { codice: 'B1', coppia: 'B2', come: ['Ginocchio davanti sopra la caviglia', 'Scendi dritto, busto alto', 'Il ginocchio dietro sfiora appena terra'] }),
+      voce('flessioni', FORZA, 3, 10, null, 60, { codice: 'B2', coppia: 'B1', ripTesto: '10-12', come: ['Corpo dritto come un\'asse', 'Gomiti a 45° dal busto', 'Fermati con 2-3 ripetizioni in riserva'] }),
+      voce('suitcase-carry', CHIUSURA, 3, 30, 16, 60, { unita: 'm', come: ['Peso in una mano sola, busto dritto', 'Non piegarti di lato', 'Passi corti e regolari'] }),
+      voce('copenhagen-corto', CHIUSURA, 3, 15, null, 45, { come: ['Ginocchio sopra la panca (versione corta)', 'Bacino alto, corpo in linea', 'Respira normalmente'] }),
+    ] },
+    { id: 'B', nome: 'Allenamento B', lettera: 'B', tipo: 'allenamento', ordine: 2, minuti: 55, esercizi: [
+      voce('extrarotazione-band', SPALLA, 3, 12, null, 30),
+      voce('wall-slide-band', SPALLA, 3, 8, null, 30, { come: ['Avambracci al muro, mini-band ai polsi', 'Sali spingendo leggermente in fuori', 'Scapole basse'] }),
+      voce('bear-hold', SPALLA, 3, 20, null, 30, { come: ['Ginocchia sollevate di 2-3 cm', 'Schiena piatta', '20-30 secondi'] }),
+      voce('stacco-kb', FORZA, 4, 8, 20, 75, { codice: 'A1', coppia: 'A2', come: ['Kettlebell tra i piedi', 'Spingi il bacino indietro, schiena dritta', 'Sali spingendo il pavimento'] }),
+      voce('trazioni-prone', FORZA, 4, 3, null, 75, { codice: 'A2', coppia: 'A1', come: ['Spalle attive: mai appeso a braccia distese', 'Petto verso la sbarra', 'Scendi controllato'] }),
+      voce('rdl-1-kb', FORZA, 3, 8, 12, 60, { codice: 'B1', coppia: 'B2', come: ['Bacino dritto, non ruotare', 'Gamba dietro e busto in linea', 'Ginocchio d\'appoggio morbido'] }),
+      voce('camminata-laterale', FORZA, 3, 12, null, 60, { codice: 'B2', coppia: 'B1', unita: 'passi' }),
+      voce('step-down', CHIUSURA, 3, 8, null, 45, { come: ['Ginocchio in linea col secondo dito', 'Scendi lento, tallone che sfiora', 'Bacino dritto'] }),
+      voce('dead-bug-kb', CHIUSURA, 3, 6, 8, 45, { come: ['Schiena incollata a terra', 'Allunga piano braccio e gamba opposti', 'Espira mentre allunghi'] }),
+    ] },
+    { id: 'routine', nome: 'Routine quotidiana', tipo: 'routine', ordine: 3, minuti: 15, esercizi: [
+      voce('gatto-cammello', 'Routine', 1, 8, null, 0),
+      voce('curl-up-mcgill', 'Routine', 5, 8, null, 10),
+      voce('side-plank', 'Routine', 3, 20, null, 20, { come: ['Gomito sotto la spalla', 'Corpo in linea', '20-30 secondi'] }),
+      voce('bird-dog', 'Routine', 1, 5, null, 0, { come: ['Tieni 5 secondi', 'Bacino fermo'] }),
+      voce('dead-bug', 'Routine', 1, 6, null, 0),
+      voce('glute-bridge', 'Routine', 1, 10, null, 0),
+      voce('open-book', 'Routine', 1, 6, null, 0),
+      voce('asciugamano-colonna', 'Routine', 1, 60, null, 0),
+    ] },
+    { id: 'mob', nome: 'Mobilità', tipo: 'mobilita', ordine: 4, minuti: 5, esercizi: [
+      voce('goblet-tenuto', 'Mobilità', 3, 20, null, 10),
+      voce('novanta-novanta', 'Mobilità', 1, 5, null, 0),
+      voce('affondo-flessore', 'Mobilità', 1, 30, null, 0),
+      voce('asciugamano-colonna', 'Mobilità', 1, 90, null, 0, { come: ['Niente stretching del petto alla porta col braccio alto'] }),
+    ] },
+  ];
+}
